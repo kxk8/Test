@@ -1,0 +1,23 @@
+name: Auto Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1
+      with:
+        host: IP
+        username: root
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd /var/www/Test
+          git pull origin main
+          npm install
+          pm2 restart test-app || pm2 start index.js --name test-app

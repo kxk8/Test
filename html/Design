@@ -1,0 +1,842 @@
+import React, { useState } from ‘react’;
+import { Search, ChevronDown } from ‘lucide-react’;
+
+const CryptoChartBot = () => {
+const [activePage, setActivePage] = useState(‘coin’);
+const [showTools, setShowTools] = useState(false);
+const [showForex, setShowForex] = useState(false);
+const [showStocks, setShowStocks] = useState(false);
+const [showCommodities, setShowCommodities] = useState(false);
+const [scrolled, setScrolled] = useState(false);
+
+React.useEffect(() => {
+const handleScroll = (e) => {
+const scrollTop = e.target.scrollTop;
+setScrolled(scrollTop > 50);
+};
+
+```
+const container = document.getElementById('main-container');
+if (container) {
+  container.addEventListener('scroll', handleScroll);
+  return () => container.removeEventListener('scroll', handleScroll);
+}
+```
+
+}, []);
+
+const navigationTabs = [
+{ id: ‘coin’, label: ‘Coin’ },
+{ id: ‘tools’, label: ‘Tools’ },
+{ id: ‘favourite’, label: ‘Fav’ },
+{ id: ‘forex’, label: ‘Forex’ },
+{ id: ‘commodities’, label: ‘Commodities’ },
+{ id: ‘nft’, label: ‘NFT’ },
+{ id: ‘stocks’, label: ‘Stocks’ },
+{ id: ‘bonds’, label: ‘Bonds’ }
+];
+
+const handleTabClick = (pageId) => {
+setActivePage(pageId);
+if (pageId === ‘tools’) {
+setShowTools(true);
+setShowForex(false);
+setShowStocks(false);
+setShowCommodities(false);
+} else if (pageId === ‘forex’) {
+setShowForex(true);
+setShowTools(false);
+setShowStocks(false);
+setShowCommodities(false);
+} else if (pageId === ‘stocks’) {
+setShowStocks(true);
+setShowTools(false);
+setShowForex(false);
+setShowCommodities(false);
+} else if (pageId === ‘commodities’) {
+setShowCommodities(true);
+setShowTools(false);
+setShowForex(false);
+setShowStocks(false);
+} else {
+setShowTools(false);
+setShowForex(false);
+setShowStocks(false);
+setShowCommodities(false);
+}
+};
+
+const toolsData = [
+{
+id: 1,
+title: ‘Analysis Hub’,
+description: ‘Compare coins & technical indicators’,
+icon: ‘⚖️’,
+color: ‘#8B5CF6’
+},
+{
+id: 2,
+title: ‘Investment Simulator’,
+description: ‘Test strategies, what-if scenarios.’,
+icon: ‘📈’,
+color: ‘#14B8A6’
+},
+{
+id: 3,
+title: ‘Market Maps’,
+description: ‘Visualize heatmaps & bubble charts’,
+icon: ‘🗺️’,
+color: ‘#EF4444’
+},
+{
+id: 4,
+title: ‘Smart Signals’,
+description: ‘AI-driven alerts & sentiment.’,
+icon: ‘📡’,
+color: ‘#3B82F6’
+},
+{
+id: 5,
+title: ‘Blockchain Insights’,
+description: ‘Top chains, DEFI & marke & genert cap’,
+icon: ‘🔗’,
+color: ‘#10B981’
+},
+{
+id: 6,
+title: ‘Profit Tracker’,
+description: ‘Calculate crypto/NFT & image generator’,
+icon: ‘💰’,
+color: ‘#06B6D4’
+},
+{
+id: 7,
+title: ‘Event Calendar’,
+description: ‘Track key market events’,
+icon: ‘📅’,
+color: ‘#A855F7’
+}
+];
+
+const forexData = [
+{
+rank: 1,
+pair: ‘EUR/USD’,
+name: ‘Euro / US Dollar’,
+price: 1.0856,
+change24h: 0.34,
+flag1: ‘🇪🇺’,
+flag2: ‘🇺🇸’
+},
+{
+rank: 2,
+pair: ‘GBP/USD’,
+name: ‘British Pound / US Dollar’,
+price: 1.2634,
+change24h: -0.21,
+flag1: ‘🇬🇧’,
+flag2: ‘🇺🇸’
+},
+{
+rank: 3,
+pair: ‘USD/JPY’,
+name: ‘US Dollar / Japanese Yen’,
+price: 149.87,
+change24h: 0.58,
+flag1: ‘🇺🇸’,
+flag2: ‘🇯🇵’
+},
+{
+rank: 4,
+pair: ‘USD/CHF’,
+name: ‘US Dollar / Swiss Franc’,
+price: 0.8845,
+change24h: 0.12,
+flag1: ‘🇺🇸’,
+flag2: ‘🇨🇭’
+},
+{
+rank: 5,
+pair: ‘AUD/USD’,
+name: ‘Australian Dollar / US Dollar’,
+price: 0.6389,
+change24h: -0.45,
+flag1: ‘🇦🇺’,
+flag2: ‘🇺🇸’
+},
+{
+rank: 6,
+pair: ‘USD/CAD’,
+name: ‘US Dollar / Canadian Dollar’,
+price: 1.3956,
+change24h: 0.23,
+flag1: ‘🇺🇸’,
+flag2: ‘🇨🇦’
+},
+{
+rank: 7,
+pair: ‘NZD/USD’,
+name: ‘New Zealand Dollar / US Dollar’,
+price: 0.5834,
+change24h: -0.38,
+flag1: ‘🇳🇿’,
+flag2: ‘🇺🇸’
+}
+];
+
+const stocksData = [
+{ rank: 1, symbol: ‘NVDA’, name: ‘NVIDIA’, price: 140.15, change24h: 2.34, color: ‘#76B900’ },
+{ rank: 2, symbol: ‘AAPL’, name: ‘Apple’, price: 198.23, change24h: 1.12, color: ‘#555555’ },
+{ rank: 3, symbol: ‘MSFT’, name: ‘Microsoft’, price: 425.67, change24h: 0.89, color: ‘#00A4EF’ },
+{ rank: 4, symbol: ‘AMZN’, name: ‘Amazon’, price: 178.45, change24h: -0.45, color: ‘#FF9900’ },
+{ rank: 5, symbol: ‘TSLA’, name: ‘Tesla’, price: 358.92, change24h: 3.21, color: ‘#E82127’ },
+{ rank: 6, symbol: ‘GOOGL’, name: ‘Alphabet’, price: 172.89, change24h: 0.67, color: ‘#4285F4’ },
+{ rank: 7, symbol: ‘META’, name: ‘Meta Platforms’, price: 512.34, change24h: 1.98, color: ‘#0668E1’ },
+{ rank: 8, symbol: ‘AVGO’, name: ‘Broadcom’, price: 218.56, change24h: 0.23, color: ‘#E60028’ },
+{ rank: 9, symbol: ‘AMD’, name: ‘AMD’, price: 134.78, change24h: -1.23, color: ‘#ED1C24’ },
+{ rank: 10, symbol: ‘INTC’, name: ‘Intel’, price: 21.45, change24h: -0.89, color: ‘#0071C5’ },
+{ rank: 11, symbol: ‘BRK.B’, name: ‘Berkshire Hathaway’, price: 456.12, change24h: 0.45, color: ‘#1E3A8A’ },
+{ rank: 12, symbol: ‘JPM’, name: ‘JPMorgan Chase’, price: 234.56, change24h: 0.78, color: ‘#117ACA’ },
+{ rank: 13, symbol: ‘V’, name: ‘Visa’, price: 298.34, change24h: 1.23, color: ‘#1A1F71’ },
+{ rank: 14, symbol: ‘MA’, name: ‘Mastercard’, price: 487.23, change24h: 0.92, color: ‘#EB001B’ },
+{ rank: 15, symbol: ‘UNH’, name: ‘UnitedHealth’, price: 512.89, change24h: -0.34, color: ‘#002677’ },
+{ rank: 16, symbol: ‘XOM’, name: ‘Exxon Mobil’, price: 112.45, change24h: 1.45, color: ‘#E1251B’ },
+{ rank: 17, symbol: ‘CVX’, name: ‘Chevron’, price: 156.78, change24h: 0.87, color: ‘#0033A0’ },
+{ rank: 18, symbol: ‘WMT’, name: ‘Walmart’, price: 178.23, change24h: 0.56, color: ‘#0071CE’ },
+{ rank: 19, symbol: ‘KO’, name: ‘Coca-Cola’, price: 61.34, change24h: -0.23, color: ‘#F40009’ },
+{ rank: 20, symbol: ‘PEP’, name: ‘PepsiCo’, price: 172.56, change24h: 0.34, color: ‘#004B93’ },
+{ rank: 21, symbol: ‘MCD’, name: “McDonald’s”, price: 289.45, change24h: 1.12, color: ‘#FFC72C’ },
+{ rank: 22, symbol: ‘PG’, name: ‘Procter & Gamble’, price: 168.90, change24h: 0.45, color: ‘#003DA5’ },
+{ rank: 23, symbol: ‘JNJ’, name: ‘Johnson & Johnson’, price: 156.78, change24h: -0.67, color: ‘#D51317’ },
+{ rank: 24, symbol: ‘NFLX’, name: ‘Netflix’, price: 712.34, change24h: 2.89, color: ‘#E50914’ },
+{ rank: 25, symbol: ‘BAC’, name: ‘Bank of America’, price: 43.21, change24h: 0.92, color: ‘#E31837’ }
+];
+
+const commoditiesData = [
+// Metals
+{ rank: 1, symbol: ‘XAU’, name: ‘Gold’, price: 2645.30, change24h: 0.85, color: ‘#FFD700’, category: ‘🥇 Metals’ },
+{ rank: 2, symbol: ‘XAG’, name: ‘Silver’, price: 30.45, change24h: 1.23, color: ‘#C0C0C0’, category: ‘🥇 Metals’ },
+{ rank: 3, symbol: ‘XPT’, name: ‘Platinum’, price: 945.20, change24h: -0.45, color: ‘#E5E4E2’, category: ‘🥇 Metals’ },
+{ rank: 4, symbol: ‘XPD’, name: ‘Palladium’, price: 976.50, change24h: 0.67, color: ‘#CED0DD’, category: ‘🥇 Metals’ },
+{ rank: 5, symbol: ‘COPPER’, name: ‘Copper’, price: 4.15, change24h: -0.32, color: ‘#B87333’, category: ‘🥇 Metals’ },
+{ rank: 6, symbol: ‘AL’, name: ‘Aluminum’, price: 2.58, change24h: 0.15, color: ‘#848789’, category: ‘🥇 Metals’ },
+{ rank: 7, symbol: ‘NI’, name: ‘Nickel’, price: 16.23, change24h: -0.89, color: ‘#727472’, category: ‘🥇 Metals’ },
+// Energy
+{ rank: 8, symbol: ‘WTI’, name: ‘Crude Oil (WTI)’, price: 70.25, change24h: 1.45, color: ‘#000000’, category: ‘⚡ Energy’ },
+{ rank: 9, symbol: ‘BRENT’, name: ‘Brent Oil’, price: 74.80, change24h: 1.32, color: ‘#1a1a1a’, category: ‘⚡ Energy’ },
+{ rank: 10, symbol: ‘NG’, name: ‘Natural Gas’, price: 3.42, change24h: -2.15, color: ‘#4169E1’, category: ‘⚡ Energy’ },
+// Agriculture
+{ rank: 11, symbol: ‘WHEAT’, name: ‘Wheat’, price: 5.67, change24h: 0.45, color: ‘#DEB887’, category: ‘🌾 Agriculture’ },
+{ rank: 12, symbol: ‘CORN’, name: ‘Corn’, price: 4.35, change24h: -0.23, color: ‘#FFD700’, category: ‘🌾 Agriculture’ },
+{ rank: 13, symbol: ‘SOYBEAN’, name: ‘Soybeans’, price: 10.12, change24h: 0.78, color: ‘#8B7355’, category: ‘🌾 Agriculture’ },
+{ rank: 14, symbol: ‘COFFEE’, name: ‘Coffee’, price: 2.34, change24h: 1.89, color: ‘#6F4E37’, category: ‘🌾 Agriculture’ },
+{ rank: 15, symbol: ‘SUGAR’, name: ‘Sugar’, price: 0.21, change24h: -0.56, color: ‘#FFFFFF’, category: ‘🌾 Agriculture’ },
+{ rank: 16, symbol: ‘COTTON’, name: ‘Cotton’, price: 0.78, change24h: 0.34, color: ‘#F8F8FF’, category: ‘🌾 Agriculture’ }
+];
+
+console.log(‘Stocks Data loaded:’, stocksData.length, ‘stocks’);
+console.log(‘Show Stocks State:’, showStocks);
+console.log(‘Active Page:’, activePage);
+
+const cryptoData = [
+{
+rank: 1,
+symbol: ‘BTC’,
+name: ‘Bitcoin’,
+price: 106847.32,
+marketCap: ‘$2.11 T’,
+change30d: 45.23,
+color: ‘#F7931A’
+},
+{
+rank: 2,
+symbol: ‘ETH’,
+name: ‘Ethereum’,
+price: 3989.45,
+marketCap: ‘$479.86 B’,
+change30d: 38.67,
+color: ‘#627EEA’
+},
+{
+rank: 3,
+symbol: ‘USDT’,
+name: ‘Tether’,
+price: 0.9998,
+marketCap: ‘$139.45 B’,
+change30d: -0.02,
+color: ‘#26A17B’
+},
+{
+rank: 4,
+symbol: ‘XRP’,
+name: ‘Ripple’,
+price: 2.4156,
+marketCap: ‘$138.24 B’,
+change30d: 289.45,
+color: ‘#23292F’
+},
+{
+rank: 5,
+symbol: ‘SOL’,
+name: ‘Solana’,
+price: 218.76,
+marketCap: ‘$105.32 B’,
+change30d: 52.18,
+color: ‘#14F195’
+},
+{
+rank: 6,
+symbol: ‘BNB’,
+name: ‘BNB’,
+price: 697.82,
+marketCap: ‘$100.15 B’,
+change30d: 28.91,
+color: ‘#F3BA2F’
+},
+{
+rank: 7,
+symbol: ‘DOGE’,
+name: ‘Dogecoin’,
+price: 0.3876,
+marketCap: ‘$57.06 B’,
+change30d: 168.34,
+color: ‘#C2A633’
+},
+{
+rank: 8,
+symbol: ‘USDC’,
+name: ‘USD Coin’,
+price: 1.0001,
+marketCap: ‘$42.18 B’,
+change30d: 0.01,
+color: ‘#2775CA’
+},
+{
+rank: 9,
+symbol: ‘ADA’,
+name: ‘Cardano’,
+price: 1.0542,
+marketCap: ‘$37.18 B’,
+change30d: 124.67,
+color: ‘#0033AD’
+},
+{
+rank: 10,
+symbol: ‘TRX’,
+name: ‘TRON’,
+price: 0.2456,
+marketCap: ‘$21.17 B’,
+change30d: 45.23,
+color: ‘#EF0027’
+}
+];
+
+const formatPrice = (price) => {
+if (price >= 1) {
+return `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+return `$${price.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 4 })}`;
+};
+
+const MiniChart = ({ change }) => {
+const isPositive = change >= 0;
+const points = Array.from({ length: 30 }, (_, i) => {
+const baseY = isPositive ? 20 - (i * 0.25) : 10 + (i * 0.25);
+const noise = Math.sin(i * 0.5) * 2 + (Math.random() - 0.5) * 1.5;
+return Math.max(5, Math.min(25, baseY + noise));
+});
+
+```
+return (
+  <svg width="80" height="30" viewBox="0 0 80 30" className="inline-block">
+    <polyline
+      points={points.map((y, x) => `${x * 2.7},${y}`).join(' ')}
+      fill="none"
+      stroke={isPositive ? '#10b981' : '#ef4444'}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+```
+
+};
+
+const HeaderComponent = () => (
+<div className={`transition-all duration-300 ${scrolled ? 'h-0 opacity-0 overflow-hidden' : 'h-auto opacity-100'}`}>
+<div className="px-5 pt-6 pb-4">
+<div className="flex items-center justify-between mb-6">
+<h1 className=“text-3xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent” style={{ fontFamily: ‘system-ui, -apple-system’ }}>
+Nova Chart
+</h1>
+<div className="flex items-center gap-3">
+<div className="w-9 h-9 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-xl shadow-lg"></div>
+<button className="p-2 hover:bg-gray-700/50 rounded-lg transition-all">
+<Search className="w-6 h-6 text-gray-300" />
+</button>
+<div className="w-9 h-9 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full relative shadow-lg">
+<div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] flex items-center justify-center font-bold border border-[#1a1f2e]">@</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+);
+
+const NavigationTabs = () => (
+<div className="px-5 pb-3">
+<div className="flex gap-2 flex-wrap mb-1">
+{navigationTabs.map((page) => (
+<button
+key={page.id}
+onClick={() => handleTabClick(page.id)}
+className={`px-4 py-2 rounded-lg font-medium transition-all text-xs ${ activePage === page.id ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/30' }`}
+>
+{page.label}
+</button>
+))}
+</div>
+</div>
+);
+
+// صفحة Coming Soon للأقسام الفاضية
+const isComingSoonPage = !showTools && !showForex && !showStocks && !showCommodities && activePage !== ‘coin’;
+
+if (isComingSoonPage) {
+return (
+<div id="main-container" className="min-h-screen bg-[#1a1f2e] text-white overflow-y-auto max-h-screen">
+<HeaderComponent />
+<NavigationTabs />
+
+```
+    {/* Coming Soon Message */}
+    <div className="flex flex-col items-center justify-center px-5 py-20">
+      <div className="text-8xl mb-6">🚀</div>
+      <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
+        Coming Soon
+      </h2>
+      <p className="text-gray-400 text-center text-lg max-w-md">
+        We're working hard to bring you this feature. Stay tuned!
+      </p>
+      <p className="text-gray-500 text-sm mt-2">
+        قريباً...
+      </p>
+    </div>
+  </div>
+);
+```
+
+}
+
+// صفحة Commodities
+if (showCommodities) {
+let currentCategory = ‘’;
+
+```
+return (
+  <div id="main-container" className="min-h-screen bg-[#1a1f2e] text-white overflow-y-auto max-h-screen">
+    <HeaderComponent />
+    <NavigationTabs />
+
+    {/* Filters */}
+    <div className="px-5 py-4 flex gap-3 overflow-x-auto">
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        All Commodities
+      </button>
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        Category
+        <ChevronDown className="w-4 h-4" />
+      </button>
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        24h %
+        <ChevronDown className="w-4 h-4" />
+      </button>
+    </div>
+
+    {/* Table Header */}
+    <div className="px-5 py-3 flex items-center text-xs font-semibold text-gray-400 uppercase tracking-wider">
+      <div className="flex items-center gap-2 flex-1">
+        <span className="w-6">#</span>
+        <span className="text-blue-400">▼</span>
+        <span>Commodity</span>
+      </div>
+      <div className="w-32 text-center">Price</div>
+      <div className="w-28 text-right">24h %</div>
+    </div>
+
+    {/* Commodities List */}
+    <div className="px-5 pb-20">
+      {commoditiesData.map((commodity) => {
+        const showCategory = currentCategory !== commodity.category;
+        currentCategory = commodity.category;
+        
+        return (
+          <div key={commodity.rank}>
+            {/* Category Header */}
+            {showCategory && (
+              <div className="py-3 mt-4 mb-2">
+                <h3 className="text-lg font-bold text-cyan-400">{commodity.category}</h3>
+              </div>
+            )}
+            
+            {/* Commodity Row */}
+            <div className="py-4 border-b border-gray-700/30 flex items-center hover:bg-gray-800/20 transition-all rounded-lg px-2 -mx-2">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <span className="text-gray-400 w-6 text-center font-medium flex-shrink-0">{commodity.rank}</span>
+                
+                <div 
+                  className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl flex-shrink-0 shadow-lg border-2"
+                  style={{ 
+                    backgroundColor: commodity.color,
+                    color: commodity.symbol === 'XAU' || commodity.symbol === 'CORN' ? '#000' : 
+                           commodity.symbol === 'XAG' || commodity.symbol === 'XPT' || commodity.symbol === 'XPD' || commodity.symbol === 'AL' || commodity.symbol === 'SUGAR' || commodity.symbol === 'COTTON' ? '#333' : 
+                           'white',
+                    borderColor: commodity.symbol === 'SUGAR' || commodity.symbol === 'COTTON' ? '#999' : commodity.color,
+                    boxShadow: `0 4px 12px ${commodity.color}80`
+                  }}
+                >
+                  {commodity.symbol === 'XAU' && '🥇'}
+                  {commodity.symbol === 'XAG' && '🥈'}
+                  {commodity.symbol === 'XPT' && '⚪'}
+                  {commodity.symbol === 'XPD' && '⚫'}
+                  {commodity.symbol === 'COPPER' && '🔶'}
+                  {commodity.symbol === 'AL' && '⬜'}
+                  {commodity.symbol === 'NI' && '⚙️'}
+                  {commodity.symbol === 'WTI' && '🛢️'}
+                  {commodity.symbol === 'BRENT' && '⛽'}
+                  {commodity.symbol === 'NG' && '🔥'}
+                  {commodity.symbol === 'WHEAT' && '🌾'}
+                  {commodity.symbol === 'CORN' && '🌽'}
+                  {commodity.symbol === 'SOYBEAN' && '🫘'}
+                  {commodity.symbol === 'COFFEE' && '☕'}
+                  {commodity.symbol === 'SUGAR' && '🍬'}
+                  {commodity.symbol === 'COTTON' && '🧵'}
+                </div>
+                
+                <div className="min-w-0">
+                  <div className="font-bold text-white text-base truncate">{commodity.name}</div>
+                  <div className="text-gray-400 text-xs mt-0.5 truncate uppercase">{commodity.symbol}</div>
+                </div>
+              </div>
+
+              <div className="w-32 text-center flex-shrink-0">
+                <div className="text-white font-semibold text-base">${commodity.price.toFixed(2)}</div>
+              </div>
+
+              <div className="w-28 flex flex-col items-end flex-shrink-0">
+                <MiniChart change={commodity.change24h} />
+                <div className={`text-sm font-bold mt-1.5 flex items-center gap-1 ${
+                  commodity.change24h >= 0 ? 'text-emerald-400' : 'text-red-400'
+                }`}>
+                  <span>{commodity.change24h >= 0 ? '▲' : '▼'}</span>
+                  <span>{Math.abs(commodity.change24h).toFixed(2)}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+);
+```
+
+}
+
+// صفحة Stocks
+if (showStocks) {
+return (
+<div id="main-container" className="min-h-screen bg-[#1a1f2e] text-white overflow-y-auto max-h-screen">
+<HeaderComponent />
+<NavigationTabs />
+
+```
+    {/* Filters */}
+    <div className="px-5 py-4 flex gap-3 overflow-x-auto">
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        Top Stocks
+      </button>
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        All Markets
+        <ChevronDown className="w-4 h-4" />
+      </button>
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        24h %
+        <ChevronDown className="w-4 h-4" />
+      </button>
+    </div>
+
+    {/* Table Header */}
+    <div className="px-5 py-3 flex items-center text-xs font-semibold text-gray-400 uppercase tracking-wider">
+      <div className="flex items-center gap-2 flex-1">
+        <span className="w-6">#</span>
+        <span className="text-blue-400">▼</span>
+        <span>Stock</span>
+      </div>
+      <div className="w-32 text-center">Price</div>
+      <div className="w-28 text-right">24h %</div>
+    </div>
+
+    {/* Stocks List */}
+    <div className="px-5 pb-20">
+      {stocksData.map((stock) => (
+        <div 
+          key={stock.rank} 
+          className="py-4 border-b border-gray-700/30 flex items-center hover:bg-gray-800/20 transition-all rounded-lg px-2 -mx-2"
+        >
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <span className="text-gray-400 w-6 text-center font-medium flex-shrink-0">{stock.rank}</span>
+            
+            <div 
+              className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0 shadow-lg"
+              style={{ 
+                backgroundColor: stock.color,
+                color: stock.color === '#FFC72C' || stock.color === '#76B900' ? '#000' : 'white',
+                boxShadow: `0 4px 12px ${stock.color}40`
+              }}
+            >
+              {stock.symbol.slice(0, 2)}
+            </div>
+            
+            <div className="min-w-0">
+              <div className="font-bold text-white text-base uppercase truncate">{stock.symbol}</div>
+              <div className="text-gray-400 text-xs mt-0.5 truncate">{stock.name}</div>
+            </div>
+          </div>
+
+          <div className="w-32 text-center flex-shrink-0">
+            <div className="text-white font-semibold text-base">${stock.price.toFixed(2)}</div>
+          </div>
+
+          <div className="w-28 flex flex-col items-end flex-shrink-0">
+            <MiniChart change={stock.change24h} />
+            <div className={`text-sm font-bold mt-1.5 flex items-center gap-1 ${
+              stock.change24h >= 0 ? 'text-emerald-400' : 'text-red-400'
+            }`}>
+              <span>{stock.change24h >= 0 ? '▲' : '▼'}</span>
+              <span>{Math.abs(stock.change24h).toFixed(2)}%</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+```
+
+}
+
+// صفحة Forex
+if (showForex) {
+return (
+<div id="main-container" className="min-h-screen bg-[#1a1f2e] text-white overflow-y-auto max-h-screen">
+<HeaderComponent />
+<NavigationTabs />
+
+```
+    {/* Filters */}
+    <div className="px-5 py-4 flex gap-3 overflow-x-auto">
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        Major Pairs
+      </button>
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        All Pairs
+        <ChevronDown className="w-4 h-4" />
+      </button>
+      <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+        24h %
+        <ChevronDown className="w-4 h-4" />
+      </button>
+    </div>
+
+    {/* Table Header */}
+    <div className="px-5 py-3 flex items-center text-xs font-semibold text-gray-400 uppercase tracking-wider">
+      <div className="flex items-center gap-2 flex-1">
+        <span className="w-6">#</span>
+        <span className="text-blue-400">▼</span>
+        <span>Pair</span>
+      </div>
+      <div className="w-32 text-center">Price</div>
+      <div className="w-28 text-right">24h %</div>
+    </div>
+
+    {/* Forex List */}
+    <div className="px-5 pb-20">
+      {forexData.map((forex) => (
+        <div 
+          key={forex.rank} 
+          className="py-4 border-b border-gray-700/30 flex items-center hover:bg-gray-800/20 transition-all rounded-lg px-2 -mx-2"
+        >
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <span className="text-gray-400 w-6 text-center font-medium flex-shrink-0">{forex.rank}</span>
+            
+            <div className="relative w-12 h-11 flex-shrink-0">
+              <div 
+                className="absolute top-0 left-0 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-xl shadow-md border border-gray-600"
+                style={{ zIndex: 2 }}
+              >
+                {forex.flag1}
+              </div>
+              <div 
+                className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-xl shadow-md border border-gray-600"
+                style={{ zIndex: 1 }}
+              >
+                {forex.flag2}
+              </div>
+            </div>
+            
+            <div className="min-w-0 flex-1">
+              <div className="font-bold text-white text-base">{forex.pair}</div>
+              <div className="text-gray-400 text-xs mt-0.5 truncate">{forex.name}</div>
+            </div>
+          </div>
+
+          <div className="w-32 text-center flex-shrink-0">
+            <div className="text-white font-semibold text-base">{forex.price.toFixed(4)}</div>
+          </div>
+
+          <div className="w-28 flex flex-col items-end flex-shrink-0">
+            <MiniChart change={forex.change24h} />
+            <div className={`text-sm font-bold mt-1.5 flex items-center gap-1 ${
+              forex.change24h >= 0 ? 'text-emerald-400' : 'text-red-400'
+            }`}>
+              <span>{forex.change24h >= 0 ? '▲' : '▼'}</span>
+              <span>{Math.abs(forex.change24h).toFixed(2)}%</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+```
+
+}
+
+// صفحة Tools
+if (showTools) {
+return (
+<div id="main-container" className="min-h-screen bg-[#1a1f2e] text-white overflow-y-auto max-h-screen">
+<HeaderComponent />
+<NavigationTabs />
+
+```
+    <div className="px-5 pb-20 space-y-3">
+      {toolsData.map((tool) => (
+        <button
+          key={tool.id}
+          className="w-full bg-gradient-to-br from-[#252b3d] to-[#1f2533] rounded-2xl p-4 flex items-center gap-4 hover:from-[#2d3548] hover:to-[#252b3d] transition-all border border-gray-700/30"
+        >
+          <div 
+            className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 shadow-lg"
+            style={{ backgroundColor: tool.color }}
+          >
+            {tool.icon}
+          </div>
+          <div className="flex-1 text-left">
+            <h3 className="text-white font-bold text-base mb-0.5">{tool.title}</h3>
+            <p className="text-gray-400 text-xs">{tool.description}</p>
+          </div>
+          <div className="text-gray-500 text-xl">›</div>
+        </button>
+      ))}
+    </div>
+  </div>
+);
+```
+
+}
+
+// صفحة Coin الرئيسية
+return (
+<div id="main-container" className="min-h-screen bg-[#1a1f2e] text-white overflow-y-auto max-h-screen">
+<HeaderComponent />
+<NavigationTabs />
+
+```
+  {/* Filters */}
+  <div className="px-5 py-4 flex gap-3 overflow-x-auto">
+    <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+      Major/Alt
+    </button>
+    <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+      Top 100
+      <ChevronDown className="w-4 h-4" />
+    </button>
+    <button className="px-6 py-3 bg-gradient-to-br from-[#2d3548] to-[#252b3d] rounded-xl text-sm font-medium text-gray-200 flex items-center gap-2 shadow-md hover:shadow-lg transition-all border border-gray-700/50 whitespace-nowrap">
+      30d %
+      <ChevronDown className="w-4 h-4" />
+    </button>
+  </div>
+
+  {/* Table Header */}
+  <div className="px-5 py-3 flex items-center text-xs font-semibold text-gray-400 uppercase tracking-wider">
+    <div className="flex items-center gap-2 flex-1">
+      <span className="w-6">#</span>
+      <span className="text-blue-400">▼</span>
+      <span>Market Cap</span>
+    </div>
+    <div className="w-32 text-center">Price</div>
+    <div className="w-28 text-right">30d %</div>
+  </div>
+
+  {/* Crypto List */}
+  <div className="px-5 pb-20">
+    {cryptoData.map((crypto) => (
+      <div 
+        key={crypto.rank} 
+        className="py-4 border-b border-gray-700/30 flex items-center hover:bg-gray-800/20 transition-all rounded-lg px-2 -mx-2"
+      >
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <span className="text-gray-400 w-6 text-center font-medium flex-shrink-0">{crypto.rank}</span>
+          
+          <div 
+            className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl flex-shrink-0 shadow-lg"
+            style={{ 
+              backgroundColor: crypto.color,
+              color: 'white',
+              boxShadow: `0 4px 12px ${crypto.color}40`
+            }}
+          >
+            {crypto.symbol === 'BTC' && '₿'}
+            {crypto.symbol === 'ETH' && 'Ξ'}
+            {crypto.symbol === 'USDT' && '₮'}
+            {crypto.symbol === 'XRP' && 'X'}
+            {crypto.symbol === 'SOL' && '◎'}
+            {crypto.symbol === 'BNB' && 'B'}
+            {crypto.symbol === 'DOGE' && 'Ð'}
+            {crypto.symbol === 'USDC' && '$'}
+            {crypto.symbol === 'ADA' && '₳'}
+            {crypto.symbol === 'TRX' && 'T'}
+          </div>
+          
+          <div className="min-w-0">
+            <div className="font-bold text-white text-base uppercase truncate">{crypto.symbol}</div>
+            <div className="text-gray-400 text-xs mt-0.5 truncate">{crypto.marketCap}</div>
+          </div>
+        </div>
+
+        <div className="w-32 text-center flex-shrink-0">
+          <div className="text-white font-semibold text-base">{formatPrice(crypto.price)}</div>
+        </div>
+
+        <div className="w-28 flex flex-col items-end flex-shrink-0">
+          <MiniChart change={crypto.change30d} />
+          <div className={`text-sm font-bold mt-1.5 flex items-center gap-1 ${
+            crypto.change30d >= 0 ? 'text-emerald-400' : 'text-red-400'
+          }`}>
+            <span>{crypto.change30d >= 0 ? '▲' : '▼'}</span>
+            <span>{Math.abs(crypto.change30d).toFixed(2)}%</span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+```
+
+);
+};
+
+export default CryptoChartBot;
